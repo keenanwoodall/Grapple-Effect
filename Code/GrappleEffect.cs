@@ -3,16 +3,24 @@
 [RequireComponent (typeof (LineRenderer))]
 public class GrappleEffect : MonoBehaviour
 {
-	public float Magnitude = 1f;
+	[Header ("Wave")]
+	public Vector2 Magnitude = Vector2.one;
 	public float Frequency = 0.5f;
 	public float Speed = 5f;
+	[Header ("Noise")]
+	public float Strength = 0.5f;
+	public float Scale = 0.25f;
+
+	[Space]
 	public int Segments = 100;
+
+	[Header ("Curves")]
 	public AnimationCurve Curve = new AnimationCurve ();
 	public AnimationCurve MagnitudeOverTime = new AnimationCurve ();
 	public AnimationCurve MagnitudeOverDistance = new AnimationCurve ();
 
 	private Vector3 grapplePoint;
-	private float scrollOffset = 0f;
+	private float timeOffset = 0f;
 	private LineRenderer lineRenderer;
 
 	private void Awake ()
@@ -30,7 +38,7 @@ public class GrappleEffect : MonoBehaviour
 	public void Do (Vector3 grapplePoint)
 	{
 		this.grapplePoint = grapplePoint;
-		scrollOffset = 0f;
+		timeOffset = 0f;
 		if (lineRenderer.positionCount != Segments)
 			lineRenderer.positionCount = Segments;
 	}
@@ -51,7 +59,7 @@ public class GrappleEffect : MonoBehaviour
 		if (!lineRenderer.enabled)
 			return;
 
-		scrollOffset += Speed * Time.deltaTime;
+		timeOffset += Speed * Time.deltaTime;
 
 		var difference = grapplePoint - transform.position;
 		var direction = difference.normalized;
@@ -64,13 +72,17 @@ public class GrappleEffect : MonoBehaviour
 			var forwardOffset = direction * (t * distance);
 			position += forwardOffset;
 
-			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency) * Magnitude;
-			verticalOffset *= MagnitudeOverTime.Evaluate (scrollOffset);
+			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency);
+			verticalOffset *= Magnitude.y;
+			verticalOffset += transform.up * (Mathf.PerlinNoise (0f, -t * Scale + timeOffset) - 0.5f) * 2f * Strength;
+			verticalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			verticalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += verticalOffset;
 
-			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency + 0.25f) * Magnitude;
-			horizontalOffset *= MagnitudeOverTime.Evaluate (scrollOffset);
+			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency + 0.25f);
+			horizontalOffset *= Magnitude.x;
+			horizontalOffset += transform.right * (Mathf.PerlinNoise (-t * Scale + timeOffset, 0f) - 0.5f) * 2f * Strength;
+			horizontalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			horizontalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += horizontalOffset;
 
