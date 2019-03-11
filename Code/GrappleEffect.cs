@@ -3,7 +3,7 @@
 [RequireComponent (typeof (LineRenderer))]
 public class GrappleEffect : MonoBehaviour
 {
-	public float Speed = 5f;
+	public float Speed = 4f;
 	public int Segments = 100;
 
 	[Header ("Spiral")]
@@ -74,14 +74,14 @@ public class GrappleEffect : MonoBehaviour
 			var forwardOffset = direction * (t * distance);
 			position += forwardOffset;
 
-			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency);
+			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency - timeOffset);
 			verticalOffset *= Magnitude.y;
 			verticalOffset += transform.up * (Mathf.PerlinNoise (0f, -t * Scale + timeOffset + lastGrappleTime) - 0.5f) * 2f * Strength;
 			verticalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			verticalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += verticalOffset;
 
-			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency + 0.25f);
+			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency - timeOffset + 0.25f);
 			horizontalOffset *= Magnitude.x;
 			horizontalOffset += transform.right * (Mathf.PerlinNoise (-t * Scale + timeOffset + lastGrappleTime, 0f) - 0.5f) * 2f * Strength;
 			horizontalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
