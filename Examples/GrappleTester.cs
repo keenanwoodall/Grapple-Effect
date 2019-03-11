@@ -25,5 +25,9 @@ public class GrappleTester : MonoBehaviour
 				grappleEffect.Do ();
 			}
 		}
+		else if (Input.GetMouseButtonDown (1))
+		{
+			grappleEffect.Dont ();
+		}
 	}
 }

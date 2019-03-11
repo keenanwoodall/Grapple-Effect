@@ -30,6 +30,12 @@ public class GrappleEffect : MonoBehaviour
 			lineRenderer.positionCount = segments;
 	}
 
+	// I like this naming convention haha
+	public void Dont ()
+	{
+		lineRenderer.enabled = false;
+	}
+
 	private void Update ()
 	{
 		if (!lineRenderer.enabled)
