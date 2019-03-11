@@ -3,16 +3,17 @@
 [RequireComponent (typeof (LineRenderer))]
 public class GrappleEffect : MonoBehaviour
 {
-	[Header ("Wave")]
+	public float Speed = 5f;
+	public int Segments = 100;
+
+	[Space]
+
+	[Header ("Spiral")]
 	public Vector2 Magnitude = Vector2.one;
 	public float Frequency = 0.5f;
-	public float Speed = 5f;
 	[Header ("Noise")]
 	public float Strength = 0.5f;
 	public float Scale = 0.25f;
-
-	[Space]
-	public int Segments = 100;
 
 	[Header ("Curves")]
 	public AnimationCurve Curve = new AnimationCurve ();
