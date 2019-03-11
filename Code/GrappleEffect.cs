@@ -18,8 +18,9 @@ public class GrappleEffect : MonoBehaviour
 	public AnimationCurve MagnitudeOverTime = new AnimationCurve ();
 	public AnimationCurve MagnitudeOverDistance = new AnimationCurve ();
 
-	private Vector3 grapplePoint;
 	private float timeOffset = 0f;
+	private float lastGrappleTime = 0f;
+	private Vector3 grapplePoint;
 	private LineRenderer lineRenderer;
 
 	private void Awake ()
@@ -40,6 +41,8 @@ public class GrappleEffect : MonoBehaviour
 		timeOffset = 0f;
 		if (lineRenderer.positionCount != Segments)
 			lineRenderer.positionCount = Segments;
+
+		lastGrappleTime = Time.time * 10f;
 	}
 
 	// I like this naming convention haha
@@ -73,14 +76,14 @@ public class GrappleEffect : MonoBehaviour
 
 			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency);
 			verticalOffset *= Magnitude.y;
-			verticalOffset += transform.up * (Mathf.PerlinNoise (0f, -t * Scale + timeOffset) - 0.5f) * 2f * Strength;
+			verticalOffset += transform.up * (Mathf.PerlinNoise (0f, -t * Scale + timeOffset + lastGrappleTime) - 0.5f) * 2f * Strength;
 			verticalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			verticalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += verticalOffset;
 
 			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency + 0.25f);
 			horizontalOffset *= Magnitude.x;
-			horizontalOffset += transform.right * (Mathf.PerlinNoise (-t * Scale + timeOffset, 0f) - 0.5f) * 2f * Strength;
+			horizontalOffset += transform.right * (Mathf.PerlinNoise (-t * Scale + timeOffset + lastGrappleTime, 0f) - 0.5f) * 2f * Strength;
 			horizontalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			horizontalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += horizontalOffset;
