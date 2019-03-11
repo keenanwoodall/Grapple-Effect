@@ -3,15 +3,13 @@
 [RequireComponent (typeof (LineRenderer))]
 public class GrappleEffect : MonoBehaviour
 {
-	[Header ("Animation")]
-	public AnimationCurve effectOverTime = new AnimationCurve ();
-	[Header ("Curve")]
-	public AnimationCurve curve = new AnimationCurve ();
-	public float curveAmount = 1f;
-	public float curveSize = 3f;
-	public AnimationCurve curveEffectCurve = new AnimationCurve ();
-	public float scrollSpeed = 5f;
-	public int segments = 100;
+	public float Magnitude = 1f;
+	public float Frequency = 0.5f;
+	public float Speed = 5f;
+	public int Segments = 100;
+	public AnimationCurve Curve = new AnimationCurve ();
+	public AnimationCurve MagnitudeOverTime = new AnimationCurve ();
+	public AnimationCurve MagnitudeOverDistance = new AnimationCurve ();
 
 	private Vector3 grapplePoint;
 	private float scrollOffset = 0f;
@@ -33,8 +31,8 @@ public class GrappleEffect : MonoBehaviour
 	{
 		this.grapplePoint = grapplePoint;
 		scrollOffset = 0f;
-		if (lineRenderer.positionCount != segments)
-			lineRenderer.positionCount = segments;
+		if (lineRenderer.positionCount != Segments)
+			lineRenderer.positionCount = Segments;
 	}
 
 	// I like this naming convention haha
@@ -53,7 +51,7 @@ public class GrappleEffect : MonoBehaviour
 		if (!lineRenderer.enabled)
 			return;
 
-		scrollOffset += scrollSpeed * Time.deltaTime;
+		scrollOffset += Speed * Time.deltaTime;
 
 		var difference = grapplePoint - transform.position;
 		var direction = difference.normalized;
@@ -66,14 +64,14 @@ public class GrappleEffect : MonoBehaviour
 			var forwardOffset = direction * (t * distance);
 			position += forwardOffset;
 
-			var verticalOffset = transform.up * curve.Evaluate (forwardOffset.magnitude / curveSize) * curveAmount;
-			verticalOffset *= effectOverTime.Evaluate (scrollOffset);
-			verticalOffset *= curveEffectCurve.Evaluate (t);
+			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency) * Magnitude;
+			verticalOffset *= MagnitudeOverTime.Evaluate (scrollOffset);
+			verticalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += verticalOffset;
 
-			var horizontalOffset = transform.right * curve.Evaluate (forwardOffset.magnitude / curveSize + 0.25f) * curveAmount;
-			horizontalOffset *= effectOverTime.Evaluate (scrollOffset);
-			horizontalOffset *= curveEffectCurve.Evaluate (t);
+			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency + 0.25f) * Magnitude;
+			horizontalOffset *= MagnitudeOverTime.Evaluate (scrollOffset);
+			horizontalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += horizontalOffset;
 
 			lineRenderer.SetPosition (i, position);

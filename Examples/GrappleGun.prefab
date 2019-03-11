@@ -89,7 +89,7 @@ GameObject:
   - component: {fileID: 3304561270592384771}
   - component: {fileID: 3304561270592384797}
   m_Layer: 0
-  m_Name: Grapple
+  m_Name: GrappleGun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -215,7 +215,53 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c838c35c8bc0f14aafaa26b6ee365eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  effectOverTime:
+  Magnitude: 1
+  Frequency: 0.5
+  Speed: 5
+  Segments: 100
+  Curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: -2.7294111
+      outSlope: -2.7294111
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.5312501
+    - serializedVersion: 3
+      time: 0.25
+      value: -0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.75
+      value: 0.5
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -2.9268234
+      outSlope: -2.9268234
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.4270842
+      outWeight: 0.33333334
+    m_PreInfinity: 1
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  MagnitudeOverTime:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -266,51 +312,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  curve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: -2.7294111
-      outSlope: -2.7294111
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.5312501
-    - serializedVersion: 3
-      time: 0.25
-      value: -0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 0.75
-      value: 0.5
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: -2.9268234
-      outSlope: -2.9268234
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.4270842
-      outWeight: 0.33333334
-    m_PreInfinity: 1
-    m_PostInfinity: 1
-    m_RotationOrder: 4
-  curveAmount: 1
-  curveSize: 3
-  curveEffectCurve:
+  MagnitudeOverDistance:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
@@ -343,8 +345,6 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scrollSpeed: 5
-  segments: 100
 --- !u!1 &5448576980481263053
 GameObject:
   m_ObjectHideFlags: 0
