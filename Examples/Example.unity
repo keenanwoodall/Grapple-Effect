@@ -965,7 +965,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 0.11666298
+        value: 0.074998856
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -1166,7 +1166,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  scrollSpeed: 5
+  scrollSpeed: 4
   segments: 100
 --- !u!114 &2007262481
 MonoBehaviour:

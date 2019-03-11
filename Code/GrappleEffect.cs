@@ -53,6 +53,11 @@ public class GrappleEffect : MonoBehaviour
 			verticalOffset *= curveEffectCurve.Evaluate (t);
 			position += verticalOffset;
 
+			var horizontalOffset = transform.right * curve.Evaluate (forwardOffset.magnitude / curveSize + 0.25f) * curveAmount;
+			horizontalOffset *= effectOverTime.Evaluate (scrollOffset);
+			horizontalOffset *= curveEffectCurve.Evaluate (t);
+			position += horizontalOffset;
+
 			lineRenderer.SetPosition (i, position);
 		}
 	}
