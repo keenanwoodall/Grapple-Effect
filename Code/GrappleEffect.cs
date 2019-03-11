@@ -6,8 +6,6 @@ public class GrappleEffect : MonoBehaviour
 	public float Speed = 5f;
 	public int Segments = 100;
 
-	[Space]
-
 	[Header ("Spiral")]
 	public Vector2 Magnitude = Vector2.one;
 	public float Frequency = 0.5f;
