@@ -13,7 +13,7 @@ public class GrappleEffect : MonoBehaviour
 	public float scrollSpeed = 5f;
 	public int segments = 100;
 
-	private RaycastHit hit;
+	private Vector3 grapplePoint;
 	private float scrollOffset = 0f;
 	private LineRenderer lineRenderer;
 
@@ -24,8 +24,14 @@ public class GrappleEffect : MonoBehaviour
 
 	public void Do ()
 	{
-		lineRenderer.enabled = Physics.Raycast (transform.position, transform.forward, out hit);
+		RaycastHit hit;
+		if (lineRenderer.enabled = Physics.Raycast (transform.position, transform.forward, out hit))
+			Do (hit.point);
+	}
 
+	public void Do (Vector3 grapplePoint)
+	{
+		this.grapplePoint = grapplePoint;
 		scrollOffset = 0f;
 		if (lineRenderer.positionCount != segments)
 			lineRenderer.positionCount = segments;
@@ -37,6 +43,11 @@ public class GrappleEffect : MonoBehaviour
 		lineRenderer.enabled = false;
 	}
 
+	public void SetGrapplePoint (Vector3 grapplePoint)
+	{
+		this.grapplePoint = grapplePoint;
+	}
+
 	private void Update ()
 	{
 		if (!lineRenderer.enabled)
@@ -44,7 +55,7 @@ public class GrappleEffect : MonoBehaviour
 
 		scrollOffset += scrollSpeed * Time.deltaTime;
 
-		var difference = hit.point - transform.position;
+		var difference = grapplePoint - transform.position;
 		var direction = difference.normalized;
 		var distance = difference.magnitude;
 
