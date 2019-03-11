@@ -65,7 +65,7 @@ public class GrappleEffect : MonoBehaviour
 
 		var difference = grapplePoint - transform.position;
 		var direction = difference.normalized;
-		var distance = difference.magnitude;
+		var distance = difference.magnitude * Mathf.Clamp01 (timeOffset * 2f);
 
 		for (int i = 0; i < lineRenderer.positionCount; i++)
 		{
