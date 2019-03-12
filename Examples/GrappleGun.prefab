@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3
-  Gravity: 1
+  Gravity: 0.5
   Segments: 100
   Magnitude: {x: 1, y: 1}
   Frequency: 0.5
@@ -412,7 +412,7 @@ MonoBehaviour:
       inWeight: 0.104166746
       outWeight: 0.4340262
     - serializedVersion: 3
-      time: 0.90000004
+      time: 0.95
       value: -0.00000013504177
       inSlope: -3.217268
       outSlope: -3.217268
@@ -421,8 +421,26 @@ MonoBehaviour:
       inWeight: 0.63541794
       outWeight: 0.71353817
     - serializedVersion: 3
-      time: 1
+      time: 1.15
       value: 0.1000061
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.25
+      value: -0.05000057
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1.35
+      value: 0.049996193
       inSlope: 0
       outSlope: 0
       tangentMode: 0

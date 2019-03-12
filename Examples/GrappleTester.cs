@@ -22,12 +22,12 @@ public class GrappleTester : MonoBehaviour
 			if (Physics.Raycast (camera.ScreenPointToRay (Input.mousePosition), out hit))
 			{
 				grappleEffect.transform.LookAt (hit.point);
-				grappleEffect.Do ();
+				grappleEffect.DoGrapple ();
 			}
 		}
 		else if (Input.GetMouseButtonDown (1))
-			grappleEffect.Dont ();
+			grappleEffect.StopGrapple ();
 		else if (Input.GetMouseButtonDown (2))
-			grappleEffect.Do (transform.position + Vector3.up * 10);
+			grappleEffect.DoGrapple (transform.position + Vector3.up * 10);
 	}
 }
