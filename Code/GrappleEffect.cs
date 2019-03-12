@@ -4,6 +4,7 @@
 public class GrappleEffect : MonoBehaviour
 {
 	public float Speed = 4f;
+	public float Gravity = 1f;
 	public int Segments = 100;
 
 	[Header ("Spiral")]
@@ -17,6 +18,8 @@ public class GrappleEffect : MonoBehaviour
 	public AnimationCurve Curve = new AnimationCurve ();
 	public AnimationCurve MagnitudeOverTime = new AnimationCurve ();
 	public AnimationCurve MagnitudeOverDistance = new AnimationCurve ();
+	public AnimationCurve GravityOverDistance = new AnimationCurve ();
+	public AnimationCurve GravityOverTime = new AnimationCurve ();
 
 	private float timeOffset = 0f;
 	private float lastGrappleTime = 0f;
@@ -87,6 +90,8 @@ public class GrappleEffect : MonoBehaviour
 			horizontalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			horizontalOffset *= MagnitudeOverDistance.Evaluate (t);
 			position += horizontalOffset;
+
+			position += Vector3.up * GravityOverDistance.Evaluate (t) * Gravity * GravityOverTime.Evaluate (timeOffset);
 
 			lineRenderer.SetPosition (i, position);
 		}
