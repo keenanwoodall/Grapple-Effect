@@ -78,20 +78,24 @@ public class GrappleEffect : MonoBehaviour
 			position += forwardOffset;
 
 			var verticalOffset = transform.up * Curve.Evaluate (forwardOffset.magnitude * Frequency - timeOffset);
-			verticalOffset *= Magnitude.y;
-			verticalOffset += transform.up * (Mathf.PerlinNoise (0f, -t * Scale + timeOffset + lastGrappleTime) - 0.5f) * 2f * Strength;
-			verticalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
-			verticalOffset *= MagnitudeOverDistance.Evaluate (t);
-			position += verticalOffset;
-
 			var horizontalOffset = transform.right * Curve.Evaluate (forwardOffset.magnitude * Frequency - timeOffset + 0.25f);
+
+			verticalOffset *= Magnitude.y;
 			horizontalOffset *= Magnitude.x;
+
+			verticalOffset += transform.up * (Mathf.PerlinNoise (0f, -t * Scale + timeOffset + lastGrappleTime) - 0.5f) * 2f * Strength;
 			horizontalOffset += transform.right * (Mathf.PerlinNoise (-t * Scale + timeOffset + lastGrappleTime, 0f) - 0.5f) * 2f * Strength;
+
+			verticalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
 			horizontalOffset *= MagnitudeOverTime.Evaluate (timeOffset);
+
+			verticalOffset *= MagnitudeOverDistance.Evaluate (t);
 			horizontalOffset *= MagnitudeOverDistance.Evaluate (t);
+
+			position += verticalOffset;
 			position += horizontalOffset;
 
-			position += Vector3.up * GravityOverDistance.Evaluate (t) * Gravity * GravityOverTime.Evaluate (timeOffset);
+			position += Vector3.up * GravityOverDistance.Evaluate (t) * GravityOverTime.Evaluate (timeOffset) * Gravity;
 
 			lineRenderer.SetPosition (i, position);
 		}
