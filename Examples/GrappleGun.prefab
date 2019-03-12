@@ -216,7 +216,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Speed: 3
-  Gravity: 0.05
+  Gravity: 1
   Segments: 100
   Magnitude: {x: 1, y: 1}
   Frequency: 0.5
