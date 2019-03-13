@@ -5,6 +5,8 @@ public class GrappleEffect : MonoBehaviour
 {
 	[Tooltip ("The speed of the entire effect.")]
 	public float Speed = 3f;
+	[Tooltip ("The speed of the spiral offset (relative to 'Speed').")]
+	public float SpiralSpeed = 4f;
 	[Tooltip ("The speed that the end of the line moves to the target point (relative to 'Speed')")]
 	public float DistanceSpeed = 2f;
 	[Tooltip ("A multiplier for the pull of gravity.")]
@@ -39,6 +41,7 @@ public class GrappleEffect : MonoBehaviour
 	public AnimationCurve GravityOverTime = new AnimationCurve ();
 
 	private float scaledTimeOffset = 0f;
+	private float spiralTimeOffset = 0f;
 	private float lastGrappleTime = 0f;
 	private Vector3 grapplePoint;
 	private LineRenderer lineRenderer;
@@ -58,7 +61,7 @@ public class GrappleEffect : MonoBehaviour
 	public void DoGrapple (Vector3 grapplePoint)
 	{
 		this.grapplePoint = grapplePoint;
-		scaledTimeOffset = 0f;
+		scaledTimeOffset = spiralTimeOffset = 0f;
 		if (lineRenderer.positionCount != Segments)
 			lineRenderer.positionCount = Segments;
 
@@ -81,11 +84,14 @@ public class GrappleEffect : MonoBehaviour
 		if (!lineRenderer.enabled)
 			return;
 
-		scaledTimeOffset += Speed * Time.deltaTime;
-
 		var difference = grapplePoint - transform.position;
 		var direction = difference.normalized;
-		var distance = difference.magnitude * Mathf.Clamp01 (scaledTimeOffset * DistanceSpeed);
+		var distanceMultiplier = Mathf.Clamp01 (scaledTimeOffset * DistanceSpeed);
+		var distance = difference.magnitude * distanceMultiplier;
+
+		scaledTimeOffset += Speed * Time.deltaTime;
+		if (distanceMultiplier < 1f)
+			spiralTimeOffset += Speed * SpiralSpeed * Time.deltaTime;
 
 		for (int i = 0; i < lineRenderer.positionCount; i++)
 		{
@@ -94,7 +100,7 @@ public class GrappleEffect : MonoBehaviour
 			var forwardOffset = direction * (t * distance);
 			position += forwardOffset;
 
-			var curveSamplePosition = forwardOffset.magnitude * Frequency - scaledTimeOffset;
+			var curveSamplePosition = forwardOffset.magnitude * Frequency - spiralTimeOffset;
 
 			var verticalOffset = transform.up * Curve.Evaluate (curveSamplePosition);
 			var horizontalOffset = transform.right * Curve.Evaluate (curveSamplePosition + HorizontalOffset);
